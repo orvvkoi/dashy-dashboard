@@ -46,8 +46,6 @@
   },
   "app-info": {
     "title": "Informații Aplicație",
-    "support-dashy": "Suport pentru Dashy",
-    "support-dashy-description": "Pentru moduri în care poți contribui, verificați",
     "support-dashy-link": "Pagina de Contribuții",
     "report-bug": "Raportează o Eroare",
     "report-bug-description": "Dacă crezi că ai găsit o eroare, atunci te rog",
@@ -282,8 +280,7 @@
       "copy-clipboard-btn": "Copiază în Clipboard",
       "copy-clipboard-tooltip": "Copiază toată configurația aplicației în clipboard-ul sistemului, în format YAML",
       "download-file-btn": "Descarcă ca Fișier",
-      "download-file-tooltip": "Descarcă toată configurația aplicației pe dispozitivul tău, într-un fișier YAML",
-      "view-title": "Vizualizează Configurația"
+      "download-file-tooltip": "Descarcă toată configurația aplicației pe dispozitivul tău, într-un fișier YAML"
     }
   },
   "widgets": {
