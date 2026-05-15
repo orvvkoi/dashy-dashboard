@@ -12,7 +12,7 @@
 # - Attests both the build provenance and SBOM and publishes to GHCR
 # - Uploads digest, SBOM and outputs as artifact, and shows MD summary
 
-name: 🐳 Build + Publish Multi-Platform Image
+name: 🐳 Docker
 
 on:
   workflow_dispatch:
@@ -119,7 +119,7 @@ jobs:
             CREATED=${{ steps.timestamp.outputs.iso }}
 
       - name: 🛡️ Trivy vulnerability scan
-        uses: aquasecurity/trivy-action@0.36.0
+        uses: aquasecurity/trivy-action@v0.36.0
         env:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db:2
           TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db:1
