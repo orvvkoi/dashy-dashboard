@@ -5,7 +5,7 @@
 # - Push of any major/minor (X.Y.0) git tag
 # - Manual dispatch with any existing tag (any version)
 
-name: 🚀 Build & Release
+name: 🚀 Release
 
 on:
   push:

@@ -15,7 +15,7 @@
 # - If no version is provided, increments patch version automatically
 # - Creates and pushes a git tag, then triggers docs site rebuild
 
-name: 🔖 Auto Version & Tag
+name: 🔖 Tag
 
 on:
   workflow_dispatch:
