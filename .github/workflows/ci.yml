@@ -16,6 +16,7 @@ jobs:
     outputs:
       lockfile: ${{ steps.filter.outputs.lockfile }}
       workflows: ${{ steps.filter.outputs.workflows }}
+      locales: ${{ steps.filter.outputs.locales }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
@@ -29,6 +30,11 @@ jobs:
               - 'yarn.lock'
             workflows:
               - '.github/workflows/**'
+            locales:
+              - 'src/assets/locales/**'
+              - 'src/**/*.vue'
+              - 'src/**/*.js'
+              - 'tests/locales/**'
 
   lint:
     name: 🛡️ Lint
@@ -86,6 +92,23 @@ jobs:
 
       - name: Run Tests
         run: yarn test
+
+  locales:
+    name: 🌐 Locale Check
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.locales == 'true'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Check Locales
+        run: yarn validate-locales
 
   build:
     name: 🏗️ Build Check
