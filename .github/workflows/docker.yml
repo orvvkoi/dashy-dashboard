@@ -127,6 +127,7 @@ jobs:
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db:2
           TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db:1
         with:
+          version: v0.70.0
           image-ref: dashy-scan:${{ matrix.arch }}
           severity: CRITICAL
           ignore-unfixed: true
