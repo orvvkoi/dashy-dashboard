@@ -50,6 +50,14 @@ class OidcAuth {
     this.adminGroup = adminGroup;
     this.adminRole = adminRole;
     this.userManager = new UserManager(settings);
+
+    // Surface OIDC errors that fire outside the init promise chain
+    this.userManager.events.addSilentRenewError((err) => {
+      ErrorHandler('OIDC silent token renew failed', err);
+    });
+    this.userManager.events.addUserSignedOut(() => {
+      statusMsg('OIDC', 'User signed out at provider');
+    });
   }
 
   async login() {
@@ -67,7 +75,13 @@ class OidcAuth {
       // Populate localStorage before the reload so the post-reload route guard
       // sees the user as logged-in and lets them through to /, not /login.
       const callbackUser = await this.userManager.signinCallback(window.location.href);
-      if (callbackUser) this.persistUserInfo(callbackUser);
+      if (!callbackUser) {
+        throw new Error(
+          'OIDC signinCallback returned no user. Check userinfo CORS, '
+          + 'requested scopes, and that id_token claims include a username.',
+        );
+      }
+      this.persistUserInfo(callbackUser);
       window.location.href = '/';
       return;
     }
@@ -84,11 +98,8 @@ class OidcAuth {
             + 'and that id_token claims include a username.',
           );
         }
-        await this.userManager.signinRedirect();
-        // Mark the attempt only once signinRedirect has resolved (i.e. the
-        // navigation actually fired). If it threw — e.g. discovery fetch failed
-        // — we leave the guard untouched so a manual retry isn't blocked.
         sessionStorage.setItem(SIGNIN_GUARD_KEY, String(Date.now()));
+        await this.userManager.signinRedirect();
       }
     } else {
       this.persistUserInfo(user);
@@ -139,7 +150,11 @@ export const isOidcEnabled = () => {
 let oidc;
 
 export const initOidcAuth = async () => {
-  const { UserManager, WebStorageStateStore } = await import('oidc-client-ts');
+  const { UserManager, WebStorageStateStore, Log } = await import('oidc-client-ts');
+  if (import.meta.env.DEV) {
+    Log.setLogger(console);
+    Log.setLevel(Log.INFO);
+  }
   oidc = new OidcAuth(UserManager, WebStorageStateStore);
   return oidc.login();
 };
