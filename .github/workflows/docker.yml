@@ -143,6 +143,15 @@ jobs:
           sarif_file: trivy-${{ matrix.arch }}.sarif
           category: trivy-${{ matrix.arch }}
 
+      - name: 📤 Upload Trivy artifact
+        if: always() && hashFiles(format('trivy-{0}.sarif', matrix.arch)) != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: trivy-${{ matrix.arch }}
+          path: trivy-${{ matrix.arch }}.sarif
+          if-no-files-found: ignore
+          retention-days: 1
+
       - name: 🚀 Push by digest
         id: push
         uses: docker/build-push-action@v7
@@ -192,6 +201,14 @@ jobs:
         with:
           path: ${{ runner.temp }}/digests
           pattern: digest-*
+          merge-multiple: true
+
+      - name: 📥 Download Trivy SARIFs
+        uses: actions/download-artifact@v7
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/trivy
+          pattern: trivy-*
           merge-multiple: true
 
       - name: 🔧 Set up Buildx
@@ -273,6 +290,7 @@ jobs:
 
       - name: 📋 Summary
         if: always()
+        continue-on-error: true
         env:
           SBOM_OUTCOME: ${{ steps.attest_sbom.outcome }}
           SBOM_URL: ${{ steps.attest_sbom.outputs.attestation-url }}
@@ -282,6 +300,7 @@ jobs:
           PRIMARY: ${{ steps.manifest.outputs.primary_tag }}
           TAGS_JSON: ${{ steps.meta.outputs.json }}
           DIGESTS_DIR: ${{ runner.temp }}/digests
+          TRIVY_DIR: ${{ runner.temp }}/trivy
         # Behold, some ugly bash, to produce a pretty output (don't read it, just trust)
         run: |
           set -euo pipefail
@@ -300,8 +319,37 @@ jobs:
             esac
           }
 
+          trivy_section() {
+            local dir="$1"
+            [ -d "$dir" ] || return 0
+            local found=0
+            local lines=""
+            local arch f n
+            for arch in amd64 arm64 armv7; do
+              f="$dir/trivy-$arch.sarif"
+              [ -f "$f" ] || continue
+              found=1
+              n=$(jq '[.runs[]?.results[]?] | length' "$f" 2>/dev/null || echo 0)
+              [[ "$n" =~ ^[0-9]+$ ]] || n=0
+              if [ "$n" = "0" ]; then
+                lines+="- ✅ \`$arch\` — no fixable CRITICAL CVEs"$'\n'
+              else
+                lines+="- ⚠️ \`$arch\` — $n fixable CRITICAL CVE(s)"$'\n'
+              fi
+            done
+            [ "$found" = "1" ] || return 0
+            echo "## Security Scan"
+            echo ""
+            echo "Trivy (CRITICAL severity, fixable only):"
+            echo ""
+            printf '%s\n' "$lines"
+            echo "---"
+            echo ""
+          }
+
           arch_section() {
-            local arch="$1" file="$DIGESTS_DIR/$arch"
+            local arch="$1"
+            local file="$DIGESTS_DIR/$arch"
             [ -f "$file" ] || return 0
             local digest manifest size count
             digest=$(cat "$file")
@@ -338,6 +386,7 @@ jobs:
             echo ""
             echo "---"
             echo ""
+            trivy_section "$TRIVY_DIR"
             echo "## Build Info"
             echo ""
             for arch in amd64 arm64 armv7; do
