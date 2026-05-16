@@ -12,6 +12,8 @@ on:
     paths:
       - 'docs/**'
 
+permissions:
+  contents: write
 
 # Jobs to be run:
 # 1. Checkout master branch

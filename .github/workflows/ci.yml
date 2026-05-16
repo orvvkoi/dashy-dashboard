@@ -5,6 +5,9 @@ on:
   pull_request:
     branches: ['master', 'develop']
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -17,6 +20,7 @@ jobs:
       lockfile: ${{ steps.filter.outputs.lockfile }}
       workflows: ${{ steps.filter.outputs.workflows }}
       locales: ${{ steps.filter.outputs.locales }}
+      translations: ${{ steps.filter.outputs.translations }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
@@ -35,6 +39,8 @@ jobs:
               - 'src/**/*.vue'
               - 'src/**/*.js'
               - 'tests/locales/**'
+            translations:
+              - 'src/assets/locales/**'
 
   lint:
     name: 🛡️ Lint
@@ -109,6 +115,20 @@ jobs:
 
       - name: Check Locales
         run: yarn validate-locales
+
+  spellcheck:
+    name: ✏️ Spellcheck
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.translations == 'true'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Spellcheck en.json
+        uses: crate-ci/typos@v1
+        with:
+          files: src/assets/locales/en.json
 
   build:
     name: 🏗️ Build Check
@@ -187,8 +207,8 @@ jobs:
           head: ${{ github.event.pull_request.head.sha }}
           extra_args: --only-verified
 
-  actionlint:
-    name: 🛠️ Lint Actions
+  workflow-audit:
+    name: 🛠️ Workflow Audit
     runs-on: ubuntu-latest
     needs: changes
     if: needs.changes.outputs.workflows == 'true'
@@ -200,3 +220,10 @@ jobs:
         uses: raven-actions/actionlint@v2
         with:
           fail-on-error: true
+
+      - name: Run Zizmor
+        uses: zizmorcore/zizmor-action@v0.5.4
+        with:
+          inputs: .github/workflows/
+          advanced-security: false
+          annotations: true
