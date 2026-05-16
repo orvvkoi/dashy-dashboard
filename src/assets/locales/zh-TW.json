@@ -46,7 +46,6 @@
   },
   "app-info": {
     "title": "應用程式資訊",
-    "support-dashy-link": "貢獻頁面",
     "report-bug": "回報錯誤",
     "report-bug-description": "若您認為您找到錯誤，請",
     "report-bug-link": "提出問題",
@@ -62,8 +61,6 @@
     "privacy-and-security-security-policy": "安全政策",
     "license": "授權條款",
     "license-under": "授權條款為",
-    "licence-third-party": "關於第三方模組的授權條款，請參閱",
-    "licence-third-party-link": "法律聲明",
     "list-contributors": "關於貢獻和致謝者的完整名單，請參閱",
     "list-contributors-link": "致謝",
     "version": "版本"
@@ -89,8 +86,6 @@
     "reset-config-msg-l2": "如果您未來還想使用您所做出的本機變更的話，請先備份。",
     "reset-config-msg-l3": "您確定要繼續嗎？",
     "data-cleared-msg": "已成功清空資料",
-    "actions-label": "動作",
-    "copy-config-label": "複製設定",
     "data-copied-msg": "設定已複製到剪貼簿",
     "reset-config-label": "重置設定",
     "css-save-btn": "儲存變更",
@@ -124,8 +119,7 @@
     "sign-out-tooltip": "登出",
     "sign-in-tooltip": "登入",
     "sign-in-welcome": "您好 {username}！",
-    "hide": "隱藏",
-    "open": "開啟"
+    "hide": "隱藏"
   },
   "updates": {
     "app-version-note": "Dashy 版本",
@@ -153,23 +147,11 @@
     "reset-toast": "{theme} 的自訂顏色已移除"
   },
   "config-editor": {
-    "save-location-label": "儲存位置",
-    "location-local-label": "套用到本機",
-    "location-disk-label": "將變更寫入設定檔",
-    "save-button": "儲存變更",
     "preview-button": "預覽變更",
     "valid-label": "設定有效",
-    "status-success-msg": "工作完成",
-    "status-fail-msg": "工作失敗",
     "success-msg-disk": "設定檔已成功寫入硬碟",
     "success-msg-local": "本機變更已儲存成功",
-    "success-note-l1": "應用程式應會自動重新建置。",
-    "success-note-l2": "可能會需要一分鐘",
-    "success-note-l3": "您需要重新整理頁面以套用變更。",
-    "error-msg-save-mode": "请選擇儲存位置：本機或者檔案",
     "error-msg-cannot-save": "儲存設定時發生錯誤",
-    "error-msg-bad-json": "JSON 錯誤，可能是格式錯誤",
-    "warning-msg-validation": "驗證警告",
     "not-admin-note": "您無法將變更寫入磁碟，因為您未以系統管理員身分登入"
   },
   "cloud-sync": {
@@ -179,7 +161,6 @@
     "intro-l3": "若想了解更多資訊，請參考",
     "intro-docs": "說明文件",
     "backup-title-setup": "建立備份",
-    "backup-title-update": "更新備份",
     "password-label-setup": "選擇密碼",
     "password-label-update": "輸入密碼",
     "backup-button-setup": "備份",
@@ -195,17 +176,6 @@
     "backup-error-password": "密碼錯誤，請重新輸入。",
     "backup-success-msg": "備份成功",
     "restore-success-msg": "設定已成功復原"
-  },
-  "menu": {
-    "open-section-title": "以...開啟",
-    "sametab": "目前分頁",
-    "newtab": "新分頁",
-    "modal": "彈出視窗",
-    "workspace": "工作區",
-    "options-section-title": "選項",
-    "edit-item": "編輯",
-    "move-item": "複製或移動",
-    "remove-item": "移除"
   },
   "context-menus": {
     "item": {
@@ -225,7 +195,6 @@
       "open-section": "開啟區域",
       "edit-section": "編輯",
       "expand-collapse": "展開 / 收合",
-      "move-section": "移動至",
       "remove-section": "移除"
     }
   },
@@ -276,7 +245,6 @@
       "warning-msg-l3": "以避免意外後果。"
     },
     "export": {
-      "export-title": "匯出設定",
       "copy-clipboard-btn": "複製至剪貼簿",
       "copy-clipboard-tooltip": "將所有應用程式設定以 YAML 格式複製到系統剪貼簿。",
       "download-file-btn": "下載檔案",
@@ -285,7 +253,6 @@
   },
   "widgets": {
     "general": {
-      "loading": "正在載入...",
       "show-more": "展開詳細資訊",
       "show-less": "顯示較少",
       "open-link": "繼續閱讀"
@@ -324,13 +291,9 @@
       "good-service-rest": "所有其他路線正常營運"
     },
     "synology-download": {
-      "download": "下載",
-      "upload": "上傳",
       "downloaded": "已下載",
       "uploaded": "已上傳",
-      "remaining": "剩餘",
-      "up": "上傳",
-      "down": "下載"
+      "remaining": "剩餘"
     },
     "gluetun-status": {
       "vpn-ip": "VPN IP",

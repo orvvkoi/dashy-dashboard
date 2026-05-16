@@ -46,7 +46,6 @@
   },
   "app-info": {
     "title": "应用信息",
-    "support-dashy-link": "贡献页面",
     "report-bug": "报告漏洞",
     "report-bug-description": "如果您认为发现了漏洞，请",
     "report-bug-link": "提交问题",
@@ -62,8 +61,6 @@
     "privacy-and-security-security-policy": "安全政策",
     "license": "许可证",
     "license-under": "根据许可证授权",
-    "licence-third-party": "有关第三方模块的许可证，请参阅",
-    "licence-third-party-link": "法律信息",
     "list-contributors": "查看所有贡献者和致谢的完整列表，请查看",
     "list-contributors-link": "致谢",
     "version": "版本"
@@ -89,8 +86,6 @@
     "reset-config-msg-l2": "如果想在以后使用它们，应该首先备份你所做的任何更改。",
     "reset-config-msg-l3": "确定执行吗？",
     "data-cleared-msg": "成功清空数据",
-    "actions-label": "行为",
-    "copy-config-label": "复制设置",
     "data-copied-msg": "设置已保存在剪切板",
     "reset-config-label": "重置设置",
     "css-save-btn": "保存更改",
@@ -124,8 +119,7 @@
     "sign-out-tooltip": "注销",
     "sign-in-tooltip": "登录",
     "sign-in-welcome": "你好 {username}！",
-    "hide": "隐藏",
-    "open": "打开"
+    "hide": "隐藏"
   },
   "updates": {
     "app-version-note": "Dashy 版本",
@@ -153,23 +147,11 @@
     "reset-toast": "{theme} 的自定义颜色已经移除"
   },
   "config-editor": {
-    "save-location-label": "保存位置",
-    "location-local-label": "应用到本地",
-    "location-disk-label": "将变更写入配置文件",
-    "save-button": "保存变更",
     "preview-button": "预览更改",
     "valid-label": "设置有效",
-    "status-success-msg": "任务完成",
-    "status-fail-msg": "任务失败",
     "success-msg-disk": "配置文件保存成功",
     "success-msg-local": "本地变更保存成功",
-    "success-note-l1": "应用需要自动重建",
-    "success-note-l2": "这将持续一段时间",
-    "success-note-l3": "你需要刷新页面以使变更生效",
-    "error-msg-save-mode": "请选择保存位置：本地或者文件",
     "error-msg-cannot-save": "保存配置时出错",
-    "error-msg-bad-json": "JSON 错误，可能格式错误",
-    "warning-msg-validation": "验证警告",
     "not-admin-note": "不能保存变更到配置文件，因为你没有以管理员身份登录"
   },
   "cloud-sync": {
@@ -179,7 +161,6 @@
     "intro-docs": "文档",
     "intro-l3": "有关更多信息，请参阅",
     "backup-title-setup": "创建备份",
-    "backup-title-update": "更新备份",
     "password-label-setup": "选择密码",
     "password-label-update": "输入密码",
     "backup-button-setup": "备份",
@@ -195,17 +176,6 @@
     "backup-error-password": "密码错误，请重新输入",
     "backup-success-msg": "备份完成",
     "restore-success-msg": "恢复完成"
-  },
-  "menu": {
-    "open-section-title": "打开方式",
-    "sametab": "在当前页打开",
-    "newtab": "在新标签页打开",
-    "modal": "在弹出窗口打开",
-    "workspace": "在工作空间打开",
-    "options-section-title": "选项",
-    "edit-item": "编辑",
-    "move-item": "复制或移动",
-    "remove-item": "删除"
   },
   "context-menus": {
     "item": {
@@ -225,7 +195,6 @@
       "open-section": "打开 Section",
       "edit-section": "编辑",
       "expand-collapse": "展开 / 折叠",
-      "move-section": "移动到",
       "remove-section": "删除"
     }
   },
@@ -276,7 +245,6 @@
       "warning-msg-l3": "以避免意外的结果。"
     },
     "export": {
-      "export-title": "导出配置",
       "copy-clipboard-btn": "复制到剪切板",
       "copy-clipboard-tooltip": "以YAML格式，将所有配置复制到剪切板 ",
       "download-file-btn": "下载配置文件",
@@ -285,7 +253,6 @@
   },
   "widgets": {
     "general": {
-      "loading": "加载中...",
       "show-more": "显示更多",
       "cpu-details": "CPU 详情",
       "mem-details": "内存 详情",
@@ -326,13 +293,9 @@
       "good-service-rest": "所有其他线路正常"
     },
     "synology-download": {
-      "download": "下载",
-      "upload": "上传",
       "downloaded": "已下载",
       "uploaded": "已上传",
-      "remaining": "剩余",
-      "up": "上行",
-      "down": "下行"
+      "remaining": "剩余"
     },
     "gluetun-status": {
       "vpn-ip": "VPN IP",

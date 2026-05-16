@@ -38,6 +38,24 @@ const coverageColour = (pct) => (pct === 100 ? 'green' : pct >= 80 ? 'cyan' : pc
 const hdr = (t) => `\n${paint('bold', t)}\n${paint('grey', '─'.repeat(stripAnsi(t).length))}`;
 const stripAnsi = (s) => s.replace(/\x1b\[[0-9;]*m/g, '');
 
+/* Keys used indirectly (computed at runtime) that the static scanner can't see */
+const IGNORED_KEYS = new Set([
+  // src/components/Configuration/JsonEditor.vue
+  'config-editor.status-warning',
+  'config-editor.status-warnings',
+  // src/components/InteractiveEditor/ExportConfigMenu.vue
+  'interactive-editor.export.status-error',
+  'interactive-editor.export.status-loading',
+  'interactive-editor.export.status-unknown',
+  'interactive-editor.export.status-valid',
+  // src/components/Settings/AuthButtons.vue
+  'settings.sign-in-tooltip',
+  'settings.sign-out-tooltip',
+  // src/utils/InitServiceWorker.js
+  'updates.sw-update-action',
+  'updates.sw-update-available',
+]);
+
 /* Walk a dir, returning files matching any of the given extensions. */
 const walk = (dir, exts, out = []) => {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -157,7 +175,7 @@ const main = () => {
 
   // Diff
   const missingInEn = [...usedLiterals].filter((k) => !(k in en)).sort();
-  const unusedInEn = enKeys.filter((k) => !isUsed(k)).sort();
+  const unusedInEn = enKeys.filter((k) => !isUsed(k) && !IGNORED_KEYS.has(k)).sort();
   const extras = {};
   const coverage = {};
   for (const [code, keys] of Object.entries(locales)) {
