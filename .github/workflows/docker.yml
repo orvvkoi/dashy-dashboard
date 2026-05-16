@@ -282,8 +282,8 @@ jobs:
           PRIMARY: ${{ steps.manifest.outputs.primary_tag }}
           TAGS_JSON: ${{ steps.meta.outputs.json }}
           DIGESTS_DIR: ${{ runner.temp }}/digests
+        # Behold, some ugly bash, to produce a pretty output (don't read it, just trust)
         run: |
-          # Behold, some ugly bash, to produce a pretty output (don't read it, just trust)
           set -euo pipefail
 
           attest_line() {
