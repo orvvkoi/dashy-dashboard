@@ -6,9 +6,8 @@
 const ping = require('pingman');
 const net = require('net');
 
-// Upper bounds for user-supplied params, matching the documented pingCheck limits
+// Max ICMP packets per check, matching the documented pingCheckCount limit
 const MAX_COUNT = 5;
-const MAX_TIMEOUT = MAX_COUNT * 1000;
 
 /* Bounds a numeric param, falling back to the default when absent or out of range */
 const boundedParam = (value, fallback, max) => {
@@ -34,7 +33,7 @@ module.exports = (paramStr, render) => {
     const params = new URLSearchParams(paramStr.slice(paramStr.indexOf('?') + 1));
     const host = params.get('host') || '';
     const count = boundedParam(params.get('count'), 2, MAX_COUNT);
-    const timeout = boundedParam(params.get('timeout'), 2000, MAX_TIMEOUT);
+    const timeout = boundedParam(params.get('timeout'), 2000, count * 1000);
     if (!host || typeof host !== 'string') {
       immediateError(render, 'Invalid host given for ping check.');
       return;
@@ -42,7 +41,7 @@ module.exports = (paramStr, render) => {
     (async () => {
       try {
         const configuration = {
-          timeout: Math.round(timeout/1000),
+          timeout: Math.max(1, Math.round(timeout / 1000)),
           numberOfEchos: count,
           IPV4: net.isIPv4(host),
           IPV6: net.isIPv6(host),
