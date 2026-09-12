@@ -6,6 +6,17 @@
 const ping = require('pingman');
 const net = require('net');
 
+// Upper bounds for user-supplied params, matching the documented pingCheck limits
+const MAX_COUNT = 5;
+const MAX_TIMEOUT = MAX_COUNT * 1000;
+
+/* Bounds a numeric param, falling back to the default when absent or out of range */
+const boundedParam = (value, fallback, max) => {
+  const num = Math.floor(Number(value));
+  if (!Number.isFinite(num) || num < 1) return fallback;
+  return Math.min(num, max);
+};
+
 /* Returned if the URL params are not present or correct */
 const immediateError = (render, error) => {
   render(JSON.stringify({
@@ -22,8 +33,8 @@ module.exports = (paramStr, render) => {
     // Get the url to check from query params
     const params = new URLSearchParams(paramStr.slice(paramStr.indexOf('?') + 1));
     const host = params.get('host') || '';
-    const count = Number(params.get('count')) || 2;
-    const timeout = Number(params.get('timeout')) || 2000;
+    const count = boundedParam(params.get('count'), 2, MAX_COUNT);
+    const timeout = boundedParam(params.get('timeout'), 2000, MAX_TIMEOUT);
     if (!host || typeof host !== 'string') {
       immediateError(render, 'Invalid host given for ping check.');
       return;
